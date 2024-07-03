@@ -19,7 +19,7 @@ WORKDIR /app
 COPY --from=builder /app/target/*.jar Ez-Blue-Services.jar
 
 # Exponha a porta do aplicativo
-EXPOSE 8081
+EXPOSE 8082
 
 # Comando para executar o JAR
 ENTRYPOINT ["java", "-jar", "/app/Ez-Blue-Services.jar"]

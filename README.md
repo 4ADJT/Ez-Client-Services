@@ -1,7 +1,7 @@
 # Ez-Blue - The Blue Zone Easy
 ## Ez-Client-Services
 
-Ez-Client-Services é um microserviço que gerencia informações dos clientes e seus veículos no sistema de parquímetro.
+Ez-Client-Services é um microserviço que gerência as informações dos clientes e seus veículos no sistema de parquímetro.
 
 ## Intenção
 
@@ -19,7 +19,7 @@ O objetivo deste serviço é fornecer APIs para gerenciar clientes e veículos, 
 
 1. Clone o repositório:
 ```sh
-git clone <URL-DO-REPOSITORIO>
+git clone https://github.com/4ADJT/Ez-Client-Services.git
 cd Ez-Client-Services
 ```
 
@@ -37,7 +37,7 @@ docker build -t ez-client-services .
 
 2. Execute o container:
 ```sh
-docker run -p 8761:8761 ez-client-services
+docker run -p 8082:8082 ez-client-services
 ```
 
 ## Configuração
