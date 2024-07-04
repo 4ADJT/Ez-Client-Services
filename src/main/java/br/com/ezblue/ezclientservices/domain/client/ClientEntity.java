@@ -1,12 +1,15 @@
 package br.com.ezblue.ezclientservices.domain.client;
 
 import br.com.ezblue.ezclientservices.domain.address.AddressEntity;
+import br.com.ezblue.ezclientservices.domain.vehicle.VehicleEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -28,6 +31,14 @@ public class ClientEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private AddressEntity address;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "client_vehicle",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "vehicle_id")
+    )
+    private List<VehicleEntity> vehicles = new ArrayList<>();
 
     public ClientEntity(RegisterClient registerClient) {
         firstName = registerClient.firstName();
@@ -53,4 +64,9 @@ public class ClientEntity {
         if (updateClient.address() != null)
             this.address.updateData(updateClient.address());
     }
+
+    public void SetAddress(AddressEntity address) {
+        this.address = address;
+    }
+
 }

@@ -15,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/client")
 public class ClientController {
 
     @Autowired
@@ -25,32 +25,39 @@ public class ClientController {
     @Transactional
     @Operation(summary = "Registar Novo Cliente", description = "Método responsável por registrar novos clientes")
     public ResponseEntity<DetailClient> registerClient(@RequestBody @Valid RegisterClient registerClient, UriComponentsBuilder componentsBuilder) {
-        return clientServices.register(registerClient,componentsBuilder);
+        var client = clientServices.register(registerClient);
+        var uri = componentsBuilder.path("client/{id}").buildAndExpand(client.id()).toUri();
+        return ResponseEntity.created(uri).body(client);
     }
 
     @GetMapping
     @Operation(summary = "Listar Clientes", description = "Método responsável por listar todos clientes.")
     public ResponseEntity<Page<SimpleClient>> ListClient(@PageableDefault(size = 10, sort = {"firstName", "lastName"}) Pageable pageable) {
-        return clientServices.findAll(pageable);
+        return ResponseEntity.ok(clientServices.findAll(pageable));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Detalhar cliente", description = "Método responsável exibir os detalhes do cliente.")
     public ResponseEntity<DetailClient> detailClient(@PathVariable UUID id) {
-        return clientServices.findById(id);
+        return clientServices.findById(id).map(client ->
+                ResponseEntity.ok(new DetailClient(client))
+        ).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
     @Transactional
     @Operation(summary = "Atualiza dados do Cliente", description = "Método responsável por atualizar os dados do cliente.")
-    public ResponseEntity<DetailClient> UpdateClient(@RequestBody @Valid UpdateClient updateGuardian, @PathVariable UUID id) {
-        return clientServices.getReferenceById(updateGuardian,id);
+    public ResponseEntity<DetailClient> UpdateClient(@RequestBody @Valid UpdateClient updateClient, @PathVariable UUID id) {
+        return ResponseEntity.ok(clientServices.getReferenceById(updateClient, id));
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Excluir clinte", description = "Método responsável por excluir definitivamente o cliente.")
+    @Operation(summary = "Excluir clinte", description = "Método responsável por excluir física o cliente.")
     public ResponseEntity DeleteClient(@PathVariable UUID id) {
-        return clientServices.deleteById(id);
+        clientServices.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
+
+    //TODO: fazer exclusão logica do cliente
 
 }
