@@ -13,7 +13,6 @@ public class EzClientServicesApplication {
     //TODO: ++Ajuste necessário nas Keys do veiculo, transformar a placa do carro como primaryKey,
     // e alterar as consultas para placa do carro e não pelo o ID do veiculo
 
-    //TODO: +Gerenciamento de Veículos: CRUD de veículos Relacionar veículos a clientes (n>n).
     //TODO: +Histórico de Transações: Registrar e consultar histórico de transações de estacionamento.
     //TODO: +Notificações e Alertas: Enviar notificações aos clientes sobre expiração de tempo de estacionamento,
     // pagamentos, etc.(pode ser futuramente transferido para um serviço dedicado).
