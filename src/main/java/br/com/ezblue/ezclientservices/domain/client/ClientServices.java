@@ -3,9 +3,7 @@ package br.com.ezblue.ezclientservices.domain.client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -24,7 +22,7 @@ public class ClientServices {
      */
     public DetailClient register(RegisterClient registerClient) {
         var client = new ClientEntity(registerClient);
-        clientRepository.save(client);
+        save(client);
         return new DetailClient(client);
     }
 
@@ -32,7 +30,7 @@ public class ClientServices {
      * Listar todos os clientes.
      *
      * @param pageable Objeto de paginação.
-     * @return Page<SimpleClient> objeto contem lista de todos os clientes com as informações básicas.
+     * @return Page<SimpleClient> objeto retorna uma lista de todos os clientes com as informações básicas.
      */
     public Page<SimpleClient> findAll(Pageable pageable) {
         return clientRepository.findAll(pageable).map(SimpleClient::new);
@@ -41,12 +39,12 @@ public class ClientServices {
     /**
      * Detalhar um cliente.
      *
-     * @param id O ID do cliente.
+     * @param optionalClientEntity Tata o objeto e converte para DetailClient.
      * @return DetailClient objeto contem todas as informações do cliente.
      * @throws RuntimeException caso cliente não exista
      */
-    public DetailClient findById(UUID id) {
-        return clientRepository.findById(id).map(DetailClient::new)
+    public DetailClient ConvertToDetailClient(Optional<ClientEntity> optionalClientEntity) {
+        return optionalClientEntity.map(DetailClient::new)
                 .orElseThrow(() -> new RuntimeException("Client not found"));
     }
 
@@ -56,11 +54,8 @@ public class ClientServices {
      * @param id O ID do cliente.
      * @return Optional<ClientEntity> objeto contem todas as informações do cliente.
      * @throws RuntimeException caso cliente não exista
-     * @deprecated este método não é recomendado.
-     * Use {@link #findById(UUID)}.
      */
-    @Deprecated
-    public Optional<ClientEntity> optionalFindById(UUID id) {
+    public Optional<ClientEntity> findById(UUID id) {
         return clientRepository.findById(id);
     }
 
@@ -72,9 +67,9 @@ public class ClientServices {
      * @return DetailClient objeto contem todas as informações do cliente.
      */
     public DetailClient getReferenceById(UpdateClient updateClient, UUID id) {
-        var client = clientRepository.getReferenceById(id);
-        client.updateData(updateClient);
-        return new DetailClient(client);
+        var clientEntity = clientRepository.getReferenceById(id);
+        clientEntity.updateData(updateClient);
+        return new DetailClient(clientEntity);
     }
 
     /**
@@ -84,5 +79,9 @@ public class ClientServices {
      */
     public void deleteById(UUID id) {
         clientRepository.deleteById(id);
+    }
+
+    public void save(ClientEntity clientEntity) {
+        clientRepository.save(clientEntity);
     }
 }

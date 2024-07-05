@@ -24,7 +24,7 @@ public class VehicleEntity {
     private UUID id;
     private String manufacturer;
     private String model;
-    private int year;
+    private Integer year;
     private String licensePlate;
 
     @ManyToMany(mappedBy = "vehicles")
@@ -37,4 +37,14 @@ public class VehicleEntity {
         this.licensePlate = registerVehicle.licensePlate();
     }
 
+    public void updateData(UpdateVehicle updateVehicle) {
+        if (updateVehicle.manufacturer() != null)
+            this.manufacturer = updateVehicle.manufacturer();
+        if (updateVehicle.model() != null)
+            this.model = updateVehicle.model();
+        if (updateVehicle.year() != null)
+            this.year = updateVehicle.year();
+        if (updateVehicle.licensePlate() != null)
+            this.licensePlate = updateVehicle.licensePlate();
+    }
 }

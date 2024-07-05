@@ -2,14 +2,14 @@ package br.com.ezblue.ezclientservices.domain.vehicle;
 
 import java.util.UUID;
 
-public record SimplesVehicle(
+public record SimpleVehicle(
         UUID id,
         String manufacturer,
         String model,
-        int year,
+        Integer year,
         String licensePlate
 ) {
-    public SimplesVehicle(VehicleEntity vehicleEntity) {
+    public SimpleVehicle(VehicleEntity vehicleEntity) {
         this(
                 vehicleEntity.getId(),
                 vehicleEntity.getManufacturer(),

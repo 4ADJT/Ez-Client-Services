@@ -2,8 +2,7 @@ package br.com.ezblue.ezclientservices.domain.client;
 
 
 import br.com.ezblue.ezclientservices.domain.address.DetailAddress;
-import br.com.ezblue.ezclientservices.domain.vehicle.DetailVehicle;
-import br.com.ezblue.ezclientservices.domain.vehicle.SimplesVehicle;
+import br.com.ezblue.ezclientservices.domain.vehicle.SimpleVehicle;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +14,7 @@ public record DetailClient(
         String email,
         String phone,
         DetailAddress address,
-        List<SimplesVehicle> vehicle
+        List<SimpleVehicle> vehicle
 ) {
     public DetailClient(ClientEntity client) {
         this(
@@ -26,7 +25,7 @@ public record DetailClient(
                 client.getPhone(),
                 new DetailAddress(client.getAddress()),
                 client.getVehicles() != null ? client.getVehicles().stream()
-                        .map(SimplesVehicle::new)
+                        .map(SimpleVehicle::new)
                         .toList() : null
         );
     }
