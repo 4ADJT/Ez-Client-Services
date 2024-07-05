@@ -2,6 +2,7 @@ package br.com.ezblue.ezclientservices.controller;
 
 import br.com.ezblue.ezclientservices.domain.client.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/client")
+@Tag(name = "Ez Client Service", description = "Serviço para gerenciamento de usuários.")
 public class ClientController {
 
     @Autowired
@@ -39,9 +41,7 @@ public class ClientController {
     @GetMapping("/{id}")
     @Operation(summary = "Detalhar cliente", description = "Método responsável exibir os detalhes do cliente.")
     public ResponseEntity<DetailClient> detailClient(@PathVariable UUID id) {
-        return clientServices.findById(id).map(client ->
-                ResponseEntity.ok(new DetailClient(client))
-        ).orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(clientServices.findById(id));
     }
 
     @PutMapping("/{id}")
