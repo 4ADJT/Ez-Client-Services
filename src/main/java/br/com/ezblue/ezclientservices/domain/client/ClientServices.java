@@ -41,7 +41,7 @@ public class ClientServices {
      *
      * @param optionalClientEntity Tata o objeto e converte para DetailClient.
      * @return DetailClient objeto contem todas as informações do cliente.
-     * @throws RuntimeException caso cliente não exista
+     * @throws RuntimeException caso cliente não exista.
      */
     public DetailClient ConvertToDetailClient(Optional<ClientEntity> optionalClientEntity) {
         return optionalClientEntity.map(DetailClient::new)
@@ -53,7 +53,7 @@ public class ClientServices {
      *
      * @param id O ID do cliente.
      * @return Optional<ClientEntity> objeto contem todas as informações do cliente.
-     * @throws RuntimeException caso cliente não exista
+     * @throws RuntimeException caso cliente não exista.
      */
     public Optional<ClientEntity> findById(UUID id) {
         return clientRepository.findById(id);
@@ -81,6 +81,11 @@ public class ClientServices {
         clientRepository.deleteById(id);
     }
 
+    /**
+     * Realiza a persistência da entidade {@code clientEntity}.
+     *
+     * @param clientEntity Objeto entidade do cliente.
+     */
     public void save(ClientEntity clientEntity) {
         clientRepository.save(clientEntity);
     }
