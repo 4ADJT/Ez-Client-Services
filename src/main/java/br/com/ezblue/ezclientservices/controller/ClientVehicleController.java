@@ -64,5 +64,5 @@ public class ClientVehicleController {
         return ResponseEntity.noContent().build();
     }
 
-    //TODO: fazer exclusão logica do cliente
+    //TODO: fazer exclusão logica do veículo
 }

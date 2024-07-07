@@ -26,6 +26,11 @@ public class AddressEntity {
     private String state;
     private String zip;
 
+    /**
+     * Construtor que inicializa um objeto {@code AddressEntity} com os dados fornecidos.
+     *
+     * @param registerAddress O objeto contendo as informações do endereço a serem registradas.
+     */
     public AddressEntity(RegisterAddress registerAddress) {
         street = registerAddress.street();
         number = registerAddress.number();
@@ -35,6 +40,11 @@ public class AddressEntity {
         zip = registerAddress.zip();
     }
 
+    /**
+     * Método que atualiza os dados do endereço com as informações fornecidas.
+     *
+     * @param address O objeto contendo as novas informações do endereço.
+     */
     public void updateData(RegisterAddress address) {
         if (address.street() != null) this.street = address.street();
         this.number = address.number();

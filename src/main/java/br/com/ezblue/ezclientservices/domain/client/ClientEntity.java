@@ -40,6 +40,11 @@ public class ClientEntity {
     )
     private List<VehicleEntity> vehicles = new ArrayList<>();
 
+    /**
+     * Construtor que inicializa um objeto {@code ClientEntity} com os dados fornecidos.
+     *
+     * @param registerClient O objeto contendo as informações do cliente a serem registradas.
+     */
     public ClientEntity(RegisterClient registerClient) {
         firstName = registerClient.firstName();
         lastName = registerClient.lastName();
@@ -48,14 +53,11 @@ public class ClientEntity {
         address = new AddressEntity(registerClient.address());
     }
 
-    public ClientEntity(ClientEntity client) {
-        id = client.id;
-        firstName = client.firstName;
-        lastName = client.lastName;
-        email = client.email;
-        phone = client.phone;
-    }
-
+    /**
+     * Método que atualiza os dados do cliente com as informações fornecidas.
+     *
+     * @param updateClient O objeto contendo as novas informações do cliente.
+     */
     public void updateData(UpdateClient updateClient) {
         if (updateClient.email() != null)
             this.email = updateClient.email();
@@ -63,10 +65,6 @@ public class ClientEntity {
             this.phone = updateClient.phone();
         if (updateClient.address() != null)
             this.address.updateData(updateClient.address());
-    }
-
-    public void SetAddress(AddressEntity address) {
-        this.address = address;
     }
 
 }

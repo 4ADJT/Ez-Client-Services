@@ -30,6 +30,11 @@ public class VehicleEntity {
     @ManyToMany(mappedBy = "vehicles")
     private List<ClientEntity> clients = new ArrayList<>();
 
+    /**
+     * Construtor que inicializa um objeto {@code VehicleEntity} com os dados fornecidos.
+     *
+     * @param registerVehicle O objeto contendo as informações do veículo a serem registradas.
+     */
     public VehicleEntity(RegisterVehicle registerVehicle) {
         this.manufacturer = registerVehicle.manufacturer();
         this.model = registerVehicle.model();
@@ -37,6 +42,11 @@ public class VehicleEntity {
         this.licensePlate = registerVehicle.licensePlate();
     }
 
+    /**
+     * Método que atualiza os dados do veículo com as informações fornecidas.
+     *
+     * @param updateVehicle O objeto contendo as novas informações do veículo.
+     */
     public void updateData(UpdateVehicle updateVehicle) {
         if (updateVehicle.manufacturer() != null)
             this.manufacturer = updateVehicle.manufacturer();

@@ -48,7 +48,7 @@ public class ClientController {
     @Transactional
     @Operation(summary = "Atualizar Cliente", description = "Atualiza os dados de um cliente específico.")
     public ResponseEntity<DetailClient> UpdateClient(@RequestBody @Valid UpdateClient updateClient, @PathVariable UUID id) {
-        return ResponseEntity.ok(clientServices.getReferenceById(updateClient, id));
+        return ResponseEntity.ok(clientServices.updateClientById(updateClient, id));
     }
 
     @DeleteMapping("/{id}")

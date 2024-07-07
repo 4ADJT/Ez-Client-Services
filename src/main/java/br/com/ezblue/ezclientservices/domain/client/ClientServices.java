@@ -66,7 +66,7 @@ public class ClientServices {
      * @param id           O ID do cliente a ser atualizado.
      * @return DetailClient objeto contem todas as informações do cliente.
      */
-    public DetailClient getReferenceById(UpdateClient updateClient, UUID id) {
+    public DetailClient updateClientById(UpdateClient updateClient, UUID id) {
         var clientEntity = clientRepository.getReferenceById(id);
         clientEntity.updateData(updateClient);
         return new DetailClient(clientEntity);
