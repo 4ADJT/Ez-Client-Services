@@ -2,6 +2,7 @@ package br.com.ezblue.ezclientservices.controller;
 
 import br.com.ezblue.ezclientservices.domain.client.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/client")
+@Tag(name = "Ez Client Service", description = "Serviço para gerenciamento de Clientes.")
 public class ClientController {
 
     @Autowired
@@ -23,34 +25,39 @@ public class ClientController {
 
     @PostMapping
     @Transactional
-    @Operation(summary = "Registar Novo Cliente", description = "Método responsável por registrar novos clientes")
+    @Operation(summary = "Registrar Novo Cliente", description = "Registra um novo cliente no sistema.")
     public ResponseEntity<DetailClient> registerClient(@RequestBody @Valid RegisterClient registerClient, UriComponentsBuilder componentsBuilder) {
-        return clientServices.register(registerClient,componentsBuilder);
+        var client = clientServices.register(registerClient);
+        var uri = componentsBuilder.path("client/{id}").buildAndExpand(client.id()).toUri();
+        return ResponseEntity.created(uri).body(client);
     }
 
     @GetMapping
-    @Operation(summary = "Listar Clientes", description = "Método responsável por listar todos clientes.")
-    public ResponseEntity<Page<SimpleClient>> ListClient(@PageableDefault(size = 10, sort = {"firstName", "lastName"}) Pageable pageable) {
-        return clientServices.findAll(pageable);
+    @Operation(summary = "Listar Clientes", description = "Lista todos os clientes cadastrados.")
+    public ResponseEntity<Page<SimpleClient>> ListClients(@PageableDefault(size = 10, sort = {"firstName", "lastName"}) Pageable pageable) {
+        return ResponseEntity.ok(clientServices.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Detalhar cliente", description = "Método responsável exibir os detalhes do cliente.")
+    @Operation(summary = "Detalhar Cliente", description = "Exibe os detalhes de um cliente específico.")
     public ResponseEntity<DetailClient> detailClient(@PathVariable UUID id) {
-        return clientServices.findById(id);
+        return ResponseEntity.ok(clientServices.ConvertToDetailClient(clientServices.findById(id)));
     }
 
     @PutMapping("/{id}")
     @Transactional
-    @Operation(summary = "Atualiza dados do Cliente", description = "Método responsável por atualizar os dados do cliente.")
-    public ResponseEntity<DetailClient> UpdateClient(@RequestBody @Valid UpdateClient updateGuardian, @PathVariable UUID id) {
-        return clientServices.getReferenceById(updateGuardian,id);
+    @Operation(summary = "Atualizar Cliente", description = "Atualiza os dados de um cliente específico.")
+    public ResponseEntity<DetailClient> UpdateClient(@RequestBody @Valid UpdateClient updateClient, @PathVariable UUID id) {
+        return ResponseEntity.ok(clientServices.updateClientById(updateClient, id));
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Excluir clinte", description = "Método responsável por excluir definitivamente o cliente.")
+    @Operation(summary = "Excluir Cliente", description = "Exclui permanentemente um cliente específico.")
     public ResponseEntity DeleteClient(@PathVariable UUID id) {
-        return clientServices.deleteById(id);
+        clientServices.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
+
+    //TODO: fazer exclusão logica do cliente
 
 }

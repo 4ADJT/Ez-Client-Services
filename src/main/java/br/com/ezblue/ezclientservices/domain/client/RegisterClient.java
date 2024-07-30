@@ -6,6 +6,15 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+/**
+ * Formulário de cadastro de cliente.
+ *
+ * @param firstName Primeiro nome do cliente.
+ * @param lastName  Ultimo nome do cliente.
+ * @param email     E-mail do cliente.
+ * @param phone     telefone do cliente.
+ * @param address   Objeto {@code RegisterAddress} usado para cadastrar o endereço do cliente.
+ */
 public record RegisterClient(
         @NotNull
         String firstName,
